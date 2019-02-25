@@ -1,2 +1,2 @@
-# pyimagesearh_starter_bundle
+# pyimagesearch_starter_bundle
 Hello World
