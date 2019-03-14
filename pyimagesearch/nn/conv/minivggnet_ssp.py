@@ -14,8 +14,10 @@ from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
 from keras import backend as K
+from spp.SpatialPyramidPooling import SpatialPyramidPooling
 
-class MiniVGGNet:
+
+class MiniVGGNetSSP:
     @staticmethod
     def build(width, height, depth, classes):
         model = Sequential()
@@ -50,9 +52,15 @@ class MiniVGGNet:
         
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
         model.add(Dropout(0.25))
-
+        
+        model.add(Conv2D(256, (3, 3), padding="same"))
+        model.add(Activation("relu"))
+        model.add(BatchNormalization(axis=chanDim))
+        
+        model.add(SpatialPyramidPooling([1, 2, 4]))
+        
         # first (and only) set of FC => RELU layers
-        model.add(Flatten())
+#        model.add(Flatten())
         model.add(Dense(512))
         model.add(Activation("relu"))
         model.add(BatchNormalization())
